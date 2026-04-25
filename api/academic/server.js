@@ -19,6 +19,11 @@ app.get("/academic/usuario/:id", async (req, res) => {
     const user = await axios.get(
       `https://users-api-rmm5.onrender.com/users/alumno/${userId}`
     );
+    if(!userRedsponse.data){
+      return res.status(404).json({
+        error: "Usuario no encontrado"
+      });
+    }
 
     const materias = inscripciones.filter(i => i.userId == userId);
 
