@@ -14,16 +14,29 @@ const inscripciones = [
 app.get("/academic/usuario/:id", async (req, res) => {
   const userId = req.params.id;
 
-  const user = await axios.get(
-    `http://localhost:3000/academic/alumno/${userId}`
-  );
+  try {
+    
+    const user = await axios.get(
+      `https://users-api-rmm5.onrender.com/users/alumno/${userId}`
+    );
 
-  const materias = inscripciones.filter(i => i.userId == userId);
+    const materias = inscripciones.filter(i => i.userId == userId);
 
-  res.json({
-    usuario: user.data,
-    materias
-  });
+    res.json({
+      usuario: user.data,
+      materias: materias
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: "Error conectando con users-service"
+    });
+  }
 });
 
-app.listen(4000, () => console.log("academic - feature inscripciones en 4000"));
+// 🔵 IMPORTANTE PARA RENDER
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log("academic corriendo en puerto", PORT);
+});
