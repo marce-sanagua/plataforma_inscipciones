@@ -11,15 +11,38 @@ const inscripciones = [
   { userId: 1, materia: "BD" }
 ];
 
+// ✔ ACADEMIC
 app.get("/academic/usuario/:id", async (req, res) => {
   const userId = req.params.id;
+
   try {
-    const user = await axios.get("http://localhost:3000/ms-usuario/alumno/" + userId);
+    const userResponse = await axios.get(
+      `https://users-api-rmm5.onrender.com/users/alumno/${userId}`
+    );
+
     const materias = inscripciones.filter(i => i.userId == userId);
-    res.json({ usuario: user.data, materias });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    return res.json({
+      usuario: userResponse.data,
+      materias
+    });
+
+  } catch (error) {
+    // ✔ usuario no existe (404 de users)
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({
+        error: "Usuario no encontrado"
+      });
+    }
+
+    return res.status(500).json({
+      error: "Error conectando con users-service"
+    });
   }
 });
 
-app.listen(4000, () => console.log("academic corriendo en 4000"));
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log("academic corriendo en puerto", PORT);
+});
