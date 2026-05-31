@@ -14,7 +14,7 @@ router.get("/usuario/:id", async (req, res) => {
 
   try {
     const user = await axios.get(
-      `http://localhost:3000/users/alumno/${userId}`
+        `https://users-api-rmm5.onrender.com/usuarios/${userId}`
     );
 
     const materias = inscripciones.filter(i => i.userId == userId);

@@ -7,7 +7,7 @@ const verifyToken = require("./src/middlewares/verifyToken");
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500', 'https://plataforma-inscripciones-frontend.vercel.app']
+  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500', 'https://plataforma-inscripciones-frontend.vercel.app', 'https://academic-api-oj98.onrender.com']
 }));
 app.use(express.json());
 
